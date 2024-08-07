@@ -22,12 +22,9 @@ public class btJAva2 {
         int b = sc.nextInt();
         if(a <= 0 || b <= 0) {
             System.out.println("cac so nhap vao phai la so nguyen duong");
-
         }else {
             int bcnn = bcnn(a,b);
             System.out.println("boi so chung nho nhat cua "+ a + " va " + b + " la :" + bcnn);
-
-
         }
     }
 
