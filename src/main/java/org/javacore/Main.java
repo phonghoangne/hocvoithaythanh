@@ -7,20 +7,33 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("Nhập số lượng phần tử arr: ");
         Scanner sc = new Scanner(System.in);
 
-        int sizeArray = sc.nextInt();
-//
-       Integer[] arr= nhapMang(sizeArray,sc);
-//
-        System.out.println("xuat mang lan 1");
-       xuatMang(arr);
+        BaiTap bt = new BaiTap();
+        int[] a = {1,1,4,6,4};
+        int[] b = {7,8,9};
+        int c[] = bt.xoaPhantu(a);
+        for(int e: c)
+        {
+            System.out.println(e);
+        }
 
-        System.out.println("sap xep mang");
-       revertArray(arr);
-        System.out.println("mang da sap xep");
-       xuatMang(arr);
+
+
+//        System.out.printf("Nhập số lượng phần tử arr: ");
+//        Scanner sc = new Scanner(System.in);
+//
+//        int sizeArray = sc.nextInt();
+////
+//       Integer[] arr= nhapMang(sizeArray,sc);
+////
+//        System.out.println("xuat mang lan 1");
+//       xuatMang(arr);
+//
+//        System.out.println("sap xep mang");
+//       revertArray(arr);
+//        System.out.println("mang da sap xep");
+//       xuatMang(arr);
 
 //        int number = sc.nextInt();
 //
