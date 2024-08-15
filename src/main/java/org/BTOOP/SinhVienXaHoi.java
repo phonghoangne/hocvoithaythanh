@@ -1,4 +1,4 @@
-package org.javacore;
+package org.BTOOP;
 
 public class SinhVienXaHoi extends SinhVien {
     private double toan, van, su, dia, gdcd;

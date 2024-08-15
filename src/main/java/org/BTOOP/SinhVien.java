@@ -1,4 +1,4 @@
-package org.javacore;
+package org.BTOOP;
 
 public abstract class SinhVien {
     private String mssv,tenSinhvien;
