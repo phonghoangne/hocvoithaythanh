@@ -7,6 +7,7 @@ public class NhanVienHanhChinh extends NhanVien  {
         super(maNhanVien, hoTen, luongCoBan,loaiNv);
         this.luongCoBan = luongCoBan;
     }
+
     public NhanVienHanhChinh(LoaiNhanVien loaiNv)
     {
         super(loaiNv);;

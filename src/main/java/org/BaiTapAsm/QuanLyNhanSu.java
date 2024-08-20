@@ -1,7 +1,10 @@
 package org.BaiTapAsm;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Comparator;
+
 
 public class QuanLyNhanSu {
     private ArrayList<NhanVien> danhSachNhanVien = new ArrayList<>();
@@ -72,65 +75,65 @@ public class QuanLyNhanSu {
    }
 
 
-   public void capNhatThongTinNhanVien(String maNhanVien, List<NhanVien> nhanViens,Scanner sc) {
-//        NhanVien nv = timNhanVienTheoMa(maNhanVien);
-//        if(nv != null){
-////            System.out.println("Nhap ho ten moi ");
-////            scanner.nextLine();
-////            nv.hoTen = scanner.nextLine();
-////            System.out.println("Nhap luong co ban moi ");
-////            nv.luongCoBan = scanner.nextDouble();
-////            if(nv instanceof NhanVienTiepThi ){
-////                System.out.println("Nhap doanh so ban hang moi ");
-////                ((NhanVienTiepThi) nv ).doanhSo = scanner.nextDouble();
-////                System.out.println("Nhap hoa hong moi ");
-////                ((NhanVienTiepThi) nv).hoaHong = scanner.nextDouble();
-////                danhSachNhanVien.add(new NhanVienTiepThi(maNhanVien,hoTen,luongCoBan,doanhSo,hoaHong));
-////            }
-//            if(nv.loaiNv.equals(LoaiNhanVien.NV))
-//            {
-//
-//            }
-//        }
-
-       // truyen danh nhan vien vao
-       // kiem tra manv truyen vao co trong ds hay khong
-       // lay loai nhan vien vua tim duoc trong danh sach
-       // khoi tao loai nhan vien tuong ung voi loai nhan vien vua tim duoc
-
+   public void capNhatThongTinNhanVien(String maNhanVien, Scanner sc) {
+        boolean check = false;
        int i = 0; // vi tri cua nhan vien can tim trong list
        // tiim thay duoc nhan vien can update
        // nhap thong tin nhan vien
        // su dung set trong list de cap nhat phan tu do
-       for (NhanVien item : nhanViens) {
-           if(item.getMaNhanVien().equals(maNhanVien))
-           {
+       for (int j = 0 ; j < danhSachNhanVien.size();j++) {
+           NhanVien item = danhSachNhanVien.get(j);
+           if(item.getMaNhanVien().equals(maNhanVien)){
+               check = true;
                if (item.getLoaiNv().equals(LoaiNhanVien.HC))
                {
                    item = new NhanVienHanhChinh(LoaiNhanVien.HC);
                    item.nhapThongTinNhanVien(sc);
-               }
-               if (item.getLoaiNv().equals(LoaiNhanVien.TP))
+                   System.out.println(item);
+                   break;
+               }else if (item.getLoaiNv().equals(LoaiNhanVien.TP))
                {
                    item = new TruongPhong(LoaiNhanVien.TP);
                    item.nhapThongTinNhanVien(sc);
-               }
-               if (item.getLoaiNv().equals(LoaiNhanVien.TT))
+                   System.out.println(item);
+                   break;
+               }else if (item.getLoaiNv().equals(LoaiNhanVien.TT))
                {
                    item = new NhanVienTiepThi(LoaiNhanVien.TT);
                    item.nhapThongTinNhanVien(sc);
+                   System.out.println(item);
+                   break;
                }
-
-               nhanViens.set(i,item);
+               danhSachNhanVien.set(j,item);
+               break;
            }
-           else{
-               System.out.println("khong tim thay manv");
-           }
-
-           i++;
+           }if(!check){
+           System.out.println("Không tìm thấy mã nhân viên!!!");
        }
    }
-
+// khi nhap ma nhan vien can cap nhat thi lap tuc bao la khong tim thay ma nhan vien
+    // nhung sau do van nhap thong tin nhan vien vao va sua duoc
+public void timNhanVienTheoLuong(double minLuong, double  maxLuong){
+        for(NhanVien nv : danhSachNhanVien) {
+            double thuNhap = nv.tinhThuNhap();
+            if(thuNhap >= minLuong && thuNhap <= maxLuong){
+                System.out.println(nv);
+            }
+        }
+}
+    public void sapXepNhanVienTheoHoTen(){
+        Collections.sort(danhSachNhanVien,Comparator.comparing(NhanVien :: getHoTen));
+    }
+    public void sapXepNhanVienTheoThuNhap(){
+        Collections.sort(danhSachNhanVien,Comparator.comparing(NhanVien :: tinhThuNhap).reversed());
+    }
+    public void xuat5NhanVienThuNhapCaoNhat(){
+        sapXepNhanVienTheoThuNhap();
+        System.out.println("Top 5 nhan vien co thu nhap cao nhat :");
+        for(int i = 0 ; i < danhSachNhanVien.size();i++){
+            System.out.println(danhSachNhanVien.get(i));
+        }
+    }
 
     public static void main(String[] args) {
     QuanLyNhanSu qlns = new QuanLyNhanSu();
@@ -143,6 +146,7 @@ public class QuanLyNhanSu {
         System.out.println("5.Cap nhat thong tin nhan vien  ");
         System.out.println("6.Tim nhan vien theo khoang luong ");
         System.out.println("7.Sap xep nhan vien theo ten ");
+        System.out.println("7.Sap xep nhan vien theo thu nhap ");
         System.out.println("9. Xuat 5  nhan vien co  thu nhap cao nhat   ");
         System.out.println("0. Thoat chuong trinh.");
         System.out.println("Chon chuc nang :");
@@ -167,10 +171,29 @@ public class QuanLyNhanSu {
                 qlns.xoaNhanVienTheoMa(scanner.nextLine());
                 break;
             case 5:
-                System.out.println("Nhap ma nv can cap nhat");
-                qlns.capNhatThongTinNhanVien(scanner.nextLine(),qlns.danhSachNhanVien,scanner);
+                System.out.println("Nhap ma nv can cap nhat :");
+                qlns.capNhatThongTinNhanVien(scanner.nextLine(),scanner);
                 break;
-
+            case 6:
+                System.out.println("Nhap khoang luong toi thieu :");
+                double minLuong = scanner.nextDouble();
+                System.out.println("Nhap khoang luong toi da :");
+                double maxLuong = scanner.nextDouble();
+                qlns.timNhanVienTheoLuong(minLuong,maxLuong);
+                break;
+            case 7:
+                qlns.sapXepNhanVienTheoHoTen();
+                qlns.xuatDanhSachSinhVien();
+                break;
+            case 8:
+                qlns.sapXepNhanVienTheoThuNhap();
+                qlns.xuatDanhSachSinhVien();
+                break;
+            case 9:
+                qlns.xuat5NhanVienThuNhapCaoNhat();
+                break;
+            case 0:
+                System.out.println("Thoat chuong trinh .");
         }
 
 
